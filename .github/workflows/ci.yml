@@ -1,0 +1,94 @@
+---
+# $schema=https://www.schemastore.org/github-action.json
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Set up mise
+        uses: jdx/mise-action@v3
+        with:
+          experimental: true
+
+      - name: actionlint
+        run: actionlint
+
+      - name: markdownlint
+        run: markdownlint-cli2 "**/*.md" "!CHANGELOG.md" "!node_modules"
+
+      - name: prettier
+        run: prettier --check .
+
+      - name: zizmor
+        run: pipx run zizmor .
+
+  test-ok:
+    name: Lint clean fixture
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Run claudelint on clean fixture
+        id: lint
+        uses: ./
+        with:
+          path: fixtures/ok
+          format: github
+          max-warnings: "-1"
+
+      - name: Assert zero errors on clean fixture
+        shell: bash
+        env:
+          ERRORS: ${{ steps.lint.outputs.error-count }}
+        run: |
+          if [[ "${ERRORS}" -ne 0 ]]; then
+            echo "expected 0 errors on fixtures/ok, got ${ERRORS}" >&2
+            exit 1
+          fi
+
+  test-formats:
+    name: Test format=${{ matrix.format }}
+    strategy:
+      fail-fast: false
+      matrix:
+        format: [text, json, github, sarif]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Run claudelint with format=${{ matrix.format }}
+        uses: ./
+        with:
+          path: fixtures/ok
+          format: ${{ matrix.format }}
+          max-warnings: "-1"
+
+  test-sarif-upload:
+    name: Upload SARIF
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Run claudelint with SARIF upload
+        uses: ./
+        with:
+          path: fixtures/ok
+          format: sarif
+          upload-sarif: "true"
+          max-warnings: "-1"
