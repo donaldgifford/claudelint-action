@@ -12,4 +12,5 @@ this project adheres to [Semantic Versioning](https://semver.org/).
 ### Miscellaneous Tasks
 
 - *(ci)* Wire up CI lint/test pipeline and release workflow
+- *(ci)* Pin third-party actions to SHA and configure zizmor
 
