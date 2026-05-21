@@ -18,3 +18,10 @@ rules:
     # INPUT_VERSION flows into the URL but never into the GITHUB_PATH write.
     ignore:
       - action.yml
+
+  artipacked:
+    # changelog-regen.yml pushes CHANGELOG.md to main using the bot's
+    # GITHUB_TOKEN, so persist-credentials must stay true. The workflow
+    # publishes no artifacts, so the persisted token is never exposed.
+    ignore:
+      - changelog-regen.yml
