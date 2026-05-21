@@ -26,7 +26,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: jefflinse/pr-semver-bump@v1.7.4
+      - uses: jefflinse/pr-semver-bump@5fb1574ea5a39c96fb4b7bf06490eeac20e1997b  # v1.7.4
         id: bump
         name: Bump and Tag Version
         with:
@@ -54,9 +54,12 @@ jobs:
           ref: ${{ needs.bump-version.outputs.tag }}
 
       - name: Set up mise (for git-cliff)
-        uses: jdx/mise-action@v3
+        uses: jdx/mise-action@5228313ee0372e111a38da051671ca30fc5a96db  # v3
         with:
           experimental: true
+          # Disable the tool cache in this release job — zizmor flags
+          # cached-tools-then-publish as a cache-poisoning vector.
+          cache: false
 
       - name: Generate release notes
         run: git-cliff --latest --strip header -o RELEASE_NOTES.md
@@ -73,7 +76,7 @@ jobs:
           git push origin "${major}" --force
 
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65  # v2
         with:
           tag_name: ${{ needs.bump-version.outputs.tag }}
           body_path: RELEASE_NOTES.md
