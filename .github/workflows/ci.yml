@@ -33,7 +33,11 @@ jobs:
         run: prettier --check .
 
       - name: zizmor
-        run: pipx run zizmor .
+        # Filter out low-severity findings (e.g. artipacked on checkouts that
+        # legitimately persist credentials to push tags/commits). Medium+ keeps
+        # the meaningful audits — unpinned-uses, excessive-permissions,
+        # cache-poisoning, github-env — fail-fast.
+        run: pipx run zizmor --min-severity=medium .
 
   test-ok:
     name: Lint clean fixture
