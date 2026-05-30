@@ -32,6 +32,7 @@ on: [push, pull_request]
 permissions:
   contents: read
   security-events: write
+  actions: read
 
 jobs:
   lint:
@@ -45,8 +46,16 @@ jobs:
 ```
 
 The Action writes SARIF to `${{ runner.temp }}/claudelint.sarif` and calls
-`github/codeql-action/upload-sarif@v4` internally; you do not need a second
-step.
+`github/codeql-action/upload-sarif@v4` internally — you do not need a second
+step, but **Code Scanning must be enabled on the repo** (Settings → Code
+security → Code scanning). The `security-events: write` permission authorizes
+the upload, `actions: read` lets the step fetch workflow-run metadata for alert
+fingerprinting, and `contents: read` is for checkout.
+
+> **Private repos:** Code Scanning on a private repo requires GitHub Advanced
+> Security, which is only available on organization accounts. Personal-account
+> private repos cannot enable Code Scanning — set `upload-sarif: "false"` (or
+> use `format: github` for inline annotations) instead.
 
 ## Pin to a specific claudelint version
 
