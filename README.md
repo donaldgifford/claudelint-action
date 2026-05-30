@@ -46,11 +46,11 @@ jobs:
 ```
 
 The Action writes SARIF to `${{ runner.temp }}/claudelint.sarif` and calls
-`github/codeql-action/upload-sarif@v4` internally; you do not need a second
-step. All three permissions are required: `security-events: write` to upload the
-SARIF, `contents: read` for checkout, and `actions: read` so the upload step can
-fetch workflow-run metadata for alert fingerprinting (omitting it surfaces as
-`Resource not accessible by integration` errors).
+`github/codeql-action/upload-sarif@v4` internally — you do not need a second
+step, but **Code Scanning must be enabled on the repo** (Settings → Code
+security → Code scanning). The `security-events: write` permission authorizes
+the upload, `actions: read` lets the step fetch workflow-run metadata for alert
+fingerprinting, and `contents: read` is for checkout.
 
 ## Pin to a specific claudelint version
 
