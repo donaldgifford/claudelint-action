@@ -22,7 +22,7 @@ jobs:
       tag: ${{ steps.bump.outputs.version }}
       skipped: ${{ steps.bump.outputs.skipped }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
         with:
           fetch-depth: 0
 
@@ -48,7 +48,7 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
         with:
           fetch-depth: 0
           ref: ${{ needs.bump-version.outputs.tag }}

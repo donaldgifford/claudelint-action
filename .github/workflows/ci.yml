@@ -16,7 +16,7 @@ jobs:
     name: Lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
 
       - name: Set up mise
         uses: jdx/mise-action@5228313ee0372e111a38da051671ca30fc5a96db # v3
@@ -43,7 +43,7 @@ jobs:
     name: Lint clean fixture
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
 
       - name: Run claudelint on clean fixture
         id: lint
@@ -71,7 +71,7 @@ jobs:
         format: [text, json, github, sarif]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
 
       - name: Run claudelint with format=${{ matrix.format }}
         uses: ./
@@ -87,7 +87,7 @@ jobs:
       contents: read
       security-events: write
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
 
       - name: Run claudelint with SARIF upload
         uses: ./
