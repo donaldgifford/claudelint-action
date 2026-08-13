@@ -16,7 +16,7 @@ jobs:
       security-events: write
       contents: read
     steps:
-      - uses: donaldgifford/govulncheck-action@v1
+      - uses: donaldgifford/govulncheck-action@fe7219aad62f0d90013615d198cee2beea53bf5b # v1
         with:
           # NOTE that we want to produce the SARIF-formatted report, which can then be consumed by other tools ...
           output-format: sarif
@@ -24,7 +24,7 @@ jobs:
 
       # ... such as the Code Scanning tab (https://github.com/oapi-codegen/oapi-codegen/security/code-scanning?query=is%3Aopen+branch%3Amain+tool%3Agovulncheck)
       - name: Upload SARIF file
-        uses: github/codeql-action/upload-sarif@v4.35.1
+        uses: github/codeql-action/upload-sarif@c10b8064de6f491fea524254123dbe5e09572f13 # v4.35.1
         with:
           sarif_file: govulncheck.sarif
           category: govulncheck
