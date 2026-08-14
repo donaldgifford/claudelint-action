@@ -26,7 +26,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: jefflinse/pr-semver-bump@5fb1574ea5a39c96fb4b7bf06490eeac20e1997b # v1.7.4
+      - uses: jefflinse/pr-semver-bump@c4e5e589f9f0679723b27abb5f8a5c649e69cf80 # v1.7.4
         id: bump
         name: Bump and Tag Version
         with:
